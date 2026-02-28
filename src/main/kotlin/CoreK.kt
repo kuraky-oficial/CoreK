@@ -4,9 +4,11 @@ import com.kuraky.CoreK.configs.Settings
 import com.kuraky.CoreK.managers.CommandManager
 import com.kuraky.CoreK.managers.ConfigManager
 import com.kuraky.CoreK.managers.DatabaseManager
+import com.kuraky.CoreK.managers.EffectManager
 import com.kuraky.CoreK.managers.ListenerManager
 import com.kuraky.CoreK.managers.MongoManager
 import com.kuraky.CoreK.managers.TaskManager
+import com.mongodb.client.MongoDatabase
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 
@@ -36,6 +38,9 @@ class CoreK : JavaPlugin() {
     lateinit var taskManager : TaskManager
         private set
 
+    lateinit var effectManager : EffectManager
+        private set
+
     override fun onEnable() {
         INSTANCE = this
         log = this.logger
@@ -45,8 +50,11 @@ class CoreK : JavaPlugin() {
         mongoManager = MongoManager()
         listenerManager = ListenerManager(this)
         taskManager = TaskManager(this)
+        effectManager = EffectManager(this)
 
         listenerManager.autoRegister("com.kuraky.CoreK.listeners")
+
+        effectManager.autoRegister("com.kuraky.Core.effects")
 
         Settings.load(config.getConfig())
         config.reloadConfig()

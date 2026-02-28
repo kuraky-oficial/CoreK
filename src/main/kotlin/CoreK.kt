@@ -6,6 +6,7 @@ import com.kuraky.CoreK.managers.ConfigManager
 import com.kuraky.CoreK.managers.DatabaseManager
 import com.kuraky.CoreK.managers.ListenerManager
 import com.kuraky.CoreK.managers.MongoManager
+import com.kuraky.CoreK.managers.TaskManager
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 
@@ -32,6 +33,9 @@ class CoreK : JavaPlugin() {
 
     lateinit var listenerManager : ListenerManager
 
+    lateinit var taskManager : TaskManager
+        private set
+
     override fun onEnable() {
         INSTANCE = this
         log = this.logger
@@ -40,6 +44,7 @@ class CoreK : JavaPlugin() {
         dbManager = DatabaseManager(this)
         mongoManager = MongoManager()
         listenerManager = ListenerManager(this)
+        taskManager = TaskManager(this)
 
         listenerManager.autoRegister("com.kuraky.CoreK.listeners")
 

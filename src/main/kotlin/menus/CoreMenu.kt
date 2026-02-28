@@ -14,7 +14,7 @@ abstract class CoreMenu(
     val rows: Int
 ): InventoryHolder {
 
-    private val inventory: Inventory = Bukkit.createInventory(player, rows * 9, ColorUtils.format(title))
+    private val inventory: Inventory = Bukkit.createInventory(this, rows * 9, ColorUtils.format(title))
     private val actions = mutableMapOf<Int, (InventoryClickEvent) -> Unit >()
 
     abstract fun setContents()

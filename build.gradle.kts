@@ -26,6 +26,8 @@ dependencies {
 
     // HikariCP (Para base de datos ultra rápida)
     implementation("com.zaxxer:HikariCP:5.1.0")
+
+    implementation("org.reflections:reflections:0.10.2")
 }
 
 tasks {

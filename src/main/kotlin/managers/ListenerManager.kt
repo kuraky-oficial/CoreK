@@ -7,7 +7,7 @@ import org.reflections.Reflections
 
 class ListenerManager (private val plugin: JavaPlugin) {
 
-    fun autoRgister(packageName: String) {
+    fun autoRegister(packageName: String) {
 
         val reflections = Reflections(packageName)
         val listenerClasses = reflections.getSubTypesOf(Listener::class.java)

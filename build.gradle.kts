@@ -28,6 +28,12 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.1.0")
 
     implementation("org.reflections:reflections:0.10.2")
+
+    implementation("com.zaxxer:HikariCP:5.1.0")
+
+    implementation("org.postgresql:postgresql:42.7.2")
+
+    implementation("org.mongodb:mongodb-driver-sync:4.11.1")
 }
 
 tasks {

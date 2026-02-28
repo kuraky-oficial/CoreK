@@ -1,4 +1,4 @@
-package utils
+package com.kuraky.CoreK.utils
 
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage

@@ -17,12 +17,13 @@ abstract class BaseCommand (
     }
 
     override fun execute(sender: CommandSender, label: String, args: Array<out String>): Boolean {
-
-        if (args.isEmpty()) {
+        // 1. Verificar si hay argumentos para buscar un subcomando
+        if (args.isNotEmpty()) {
             val subName = args[0].lowercase()
             val sub = subCommands[subName]
 
             if (sub != null) {
+                // 2. Verificar permisos del subcomando (Debes agregarlo a la interfaz)
                 if (sub.permission != null && !sender.hasPermission(sub.permission!!)) {
                     sender.sendMessage("§cNo tienes permiso para usar este subcomando.")
                     return true
@@ -31,11 +32,11 @@ abstract class BaseCommand (
                 sub.execute(sender, args.copyOfRange(1, args.size))
                 return true
             }
-            runDefault(sender, args)
-            return true
-
         }
 
+        // 3. Si no hay argumentos o no se encontró el subcomando, ejecutar el base
+        runDefault(sender, args)
+        return true
     }
 
     abstract fun runDefault(sender: CommandSender, args: Array<out String>)

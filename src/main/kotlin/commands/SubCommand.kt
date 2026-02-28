@@ -6,6 +6,6 @@ interface SubCommand {
     val name: String
     val description: String
     val usage: String?
-
+    val permission: String? // Agrega esto
     fun execute(sender: CommandSender, args: Array<out String>)
 }

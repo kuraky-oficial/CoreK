@@ -15,32 +15,33 @@ class CoreK : JavaPlugin() {
         lateinit var log : Logger
     }
 
-    lateinit var settingsFile : ConfigManager
-    private set
-    lateinit var commandManager: CommandManager
-    private set
+    lateinit var config : ConfigManager
+        private set
+
+    lateinit var commandManager : CommandManager
+        private set
+
     override fun onEnable() {
         INSTANCE = this
         log = this.logger
-
-        settingsFile = ConfigManager(this, "settings.yml")
-        Settings.load(settingsFile.getConfig())
+        config = ConfigManager(this, "config.yml")
         commandManager = CommandManager(this)
 
-        commandManager.autoRegister("com.kuraky.CoreK,command")
+        Settings.load(config.getConfig())
+        config.reloadConfig()
+
+        commandManager.autoRegister("com.kuraky.CoreK.commands")
 
         log.info("----------------------------------")
         log.info("   CoreK habilitado (v${description.version})")
         log.info("   Desarrollado por: KurakyStudio")
         log.info("----------------------------------")
 
-
-        val title = Settings.defaultSlots
     }
 
     override fun onDisable() {
+        config.saveConfig()
         log.info("CoreK deshabilitado. Guardando datos...")
-        settingsFile.saveConfig()
     }
 
 }

@@ -1,0 +1,8 @@
+name: CoreK
+version: '${version}'
+main: com.kuraky.Corek.CoreK
+api-version: '1.21'
+author: KurakyStudio
+description: El motor central para el ecosistema CoreK.
+# Esto permite que otros plugins vean a CoreK como una librería
+load: STARTUP

@@ -1,7 +1,9 @@
-import org.bukkit.plugin.Plugin
+package com.kuraky.CoreK
+
+import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 
-class CoreK : Plugin {
+class CoreK : JavaPlugin() {
 
     companion object {
         lateinit var INSTANCE: CoreK

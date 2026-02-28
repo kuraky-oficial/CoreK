@@ -1,6 +1,6 @@
 name: CoreK
 version: '${version}'
-main: com.kuraky.Corek.CoreK
+main: com.kuraky.CoreK.CoreK
 api-version: '1.21'
 author: KurakyStudio
 description: El motor central para el ecosistema CoreK.

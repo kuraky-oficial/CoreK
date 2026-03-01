@@ -1,12 +1,16 @@
 package com.kuraky.CoreK
 
 import com.kuraky.CoreK.configs.Settings
+import com.kuraky.CoreK.holograms.CoreHologram
 import com.kuraky.CoreK.managers.CommandManager
 import com.kuraky.CoreK.managers.ConfigManager
+import com.kuraky.CoreK.managers.CooldownManager
 import com.kuraky.CoreK.managers.DatabaseManager
 import com.kuraky.CoreK.managers.EffectManager
+import com.kuraky.CoreK.managers.HologramManager
 import com.kuraky.CoreK.managers.ListenerManager
 import com.kuraky.CoreK.managers.MongoManager
+import com.kuraky.CoreK.managers.ScoreboardManager
 import com.kuraky.CoreK.managers.TaskManager
 import com.mongodb.client.MongoDatabase
 import org.bukkit.plugin.java.JavaPlugin
@@ -41,25 +45,36 @@ class CoreK : JavaPlugin() {
     lateinit var effectManager : EffectManager
         private set
 
+    lateinit var cooldownManager : CooldownManager
+        private set
+
+    lateinit var scoreboards : ScoreboardManager
+        private set
+
+    lateinit var hologram: HologramManager
+        private set
+
     override fun onEnable() {
         INSTANCE = this
         log = this.logger
-        config = ConfigManager(this, "config.yml")
+
+        // Inicializadores
+
         commandManager = CommandManager(this)
         dbManager = DatabaseManager(this)
         mongoManager = MongoManager()
         listenerManager = ListenerManager(this)
         taskManager = TaskManager(this)
         effectManager = EffectManager(this)
+        cooldownManager = CooldownManager(this)
+        scoreboards = ScoreboardManager(this)
+        hologram = HologramManager(this)
 
-        listenerManager.autoRegister("com.kuraky.CoreK.listeners")
 
-        effectManager.autoRegister("com.kuraky.Core.effects")
-
+        config = ConfigManager(this, "config.yml")
         Settings.load(config.getConfig())
         config.reloadConfig()
 
-        commandManager.autoRegister("com.kuraky.CoreK.commands")
 
         log.info("----------------------------------")
         log.info("   CoreK habilitado (v${description.version})")
@@ -73,6 +88,8 @@ class CoreK : JavaPlugin() {
     }
 
     override fun onDisable() {
+        hologram.clearAll()
+        scoreboards.clearAll()
         config.saveConfig()
         log.info("CoreK deshabilitado. Guardando datos...")
     }

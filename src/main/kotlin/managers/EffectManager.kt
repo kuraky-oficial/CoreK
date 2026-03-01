@@ -1,6 +1,7 @@
 package com.kuraky.CoreK.managers
 
 import com.kuraky.CoreK.effects.CoreEffect
+import com.kuraky.CoreK.effects.RegisteredEffect
 import org.bukkit.entity.LivingEntity
 import org.bukkit.plugin.java.JavaPlugin
 import org.reflections.Reflections
@@ -11,23 +12,21 @@ class EffectManager(private val plugin: JavaPlugin) {
 
     fun autoRegister(packageName: String) {
         val reflections = Reflections(packageName)
-        val effectClasses = reflections.getSubTypesOf(CoreEffect::class.java)
+        // AQUI ESTÁ LA MAGIA: Solo buscamos los 'RegisteredEffect'
+        val effectClasses = reflections.getSubTypesOf(RegisteredEffect::class.java)
 
         for (clazz in effectClasses) {
             try {
-                // Instanciamos la clase del efecto (requiere que el constructor esté vacío)
                 val effect = clazz.getDeclaredConstructor().newInstance()
-
-                // Lo registramos usando el ID definido en la clase
                 effectsRegistry[effect.id.lowercase()] = effect
                 plugin.logger.info("Efecto registrado automáticamente: ${effect.id}")
-
             } catch (e: Exception) {
                 plugin.logger.warning("No se pudo registrar el efecto ${clazz.simpleName}: ${e.message}")
             }
         }
     }
 
+    // Permitimos registrar efectos manualmente también (útil para otros plugins)
     fun registerEffect(id: String, effect: CoreEffect) {
         effectsRegistry[id.lowercase()] = effect
         plugin.logger.info("Efecto registrado exitosamente: $id")
@@ -37,14 +36,12 @@ class EffectManager(private val plugin: JavaPlugin) {
         return effectsRegistry[id.lowercase()]
     }
 
-    fun applyEffect(id: String, target: LivingEntity) : Boolean {
-
+    fun applyEffect(id: String, target: LivingEntity): Boolean {
         val effect = getEffect(id)
         if (effect != null) {
             effect.apply(target)
             return true
         }
-
         plugin.logger.warning("Intento de aplicar un efecto que no existe: $id")
         return false
     }
@@ -52,5 +49,4 @@ class EffectManager(private val plugin: JavaPlugin) {
     fun clearRegistry() {
         effectsRegistry.clear()
     }
-
 }
